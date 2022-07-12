@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const stylesbox = StyleSheet.create({
+const styles = StyleSheet.create({
     checkBoxStyle: {
     flexDirection: 'row', 
     width: '100%', 
@@ -33,4 +33,4 @@ const stylesbox = StyleSheet.create({
 
 })
 
-export default stylesbox;
+export default styles;

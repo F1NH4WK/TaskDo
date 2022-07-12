@@ -1,6 +1,6 @@
 import  React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { Text, View, TextInput } from 'react-native';
 import { useFonts, Roboto_400Regular } from '@expo-google-fonts/roboto';
 import AppLoading from 'expo';
 import { useState } from 'react';
@@ -8,7 +8,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Ionicons } from '@expo/vector-icons'; 
 
 // LOCAL IMPORTS
-import stylesbox from "./styles/ComponentsStyle";
+import styles from "./styles/ComponentsStyle";
 
 
 export default function App() {
@@ -32,12 +32,12 @@ export default function App() {
   function AddBoxCheck(props){
 
     return(
-        <View style = {stylesbox.checkBoxStyle}>
+        <View style = {styles.checkBoxStyle}>
 
             <TextInput 
             placeholder="Adicionar..." 
             placeholderTextColor= {'gray'} 
-            style = {stylesbox.checkBoxAddStyle}
+            style = {styles.checkBoxAddStyle}
             onChangeText = {text => setTexto(text)}
             maxLength = {32}
             defaultValue = {texto}/>
