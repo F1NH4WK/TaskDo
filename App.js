@@ -90,21 +90,3 @@ export default function App() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-    paddingLeft: 15,
-    paddingRight: 15
-  },
-
-  textStyle: {
-    color: 'deeppink',
-    fontFamily: 'Roboto_400Regular',
-    fontSize: 40,
-    fontWeight: 'bold',
-    opacity: 0.75,
-    alignSelf: 'center'
-  },
-});
