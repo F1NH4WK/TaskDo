@@ -1,9 +1,8 @@
-import  React from 'react';
+import  React, {useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, TextInput } from 'react-native';
+import { Text, View, TextInput, AsyncStorage } from 'react-native';
 import { useFonts, Roboto_400Regular } from '@expo-google-fonts/roboto';
 import AppLoading from 'expo';
-import { useState } from 'react';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Ionicons } from '@expo/vector-icons'; 
 
@@ -13,8 +12,12 @@ import styles from "./styles/ComponentsStyle";
 
 export default function App() {
 
-  function removerElemento(id){
-    tasks.filter(i => i.id != id)}
+  useEffect(() => {(async() => {
+    const tarefas = await AsyncStorage.getItem('tarefas')
+    setTexto(tarefas)
+  })()}, [])
+
+  const setData = async() => await AsyncStorage.setItem('tarefas', tasks)
 
   function BoxCheck(props){
     return(
@@ -74,7 +77,8 @@ export default function App() {
     Roboto_400Regular })
   if (!fontLoaded){ <AppLoading/> }
 
-  let addBoxCheck = tasks.map((i) => <BoxCheck text = {i.note} id = {i.id}  />)
+  let addBoxCheck = tasks.map(i => <BoxCheck text = {i.note} id = {i.id}/>)
+  
   
   return (
     <View style={styles.container}>
@@ -82,9 +86,11 @@ export default function App() {
       <Text style = {styles.textStyle}>TaskDo</Text>
       <View style = {styles.styleCheckBox}> 
       {addBoxCheck}
+
        <AddBoxCheck press = {() => {
         setTasks([...tasks, {id: tasks.length, note: texto}])
         setTexto('')
+        setData()
         }}/>
       </View>
     </View>
