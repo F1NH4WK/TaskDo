@@ -1,8 +1,6 @@
 import  React, {useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TextInput, AsyncStorage } from 'react-native';
-import { useFonts, Roboto_400Regular } from '@expo-google-fonts/roboto';
-import AppLoading from 'expo';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Ionicons } from '@expo/vector-icons'; 
 
@@ -12,12 +10,16 @@ import styles from "./styles/ComponentsStyle";
 
 export default function App() {
 
-  useEffect(() => {(async() => {
-    const tarefas = await AsyncStorage.getItem('tarefas')
-    setTexto(tarefas)
-  })()}, [])
+  // STATES
+  const [tasks, setTasks] = useState([
+    {id: 1, note: 'Leite'},
+    {id: 2, note: 'Tomate'},
+    {id: 3, note: 'Arroz'}
+  ]);
+  const [texto, setTexto] = useState('');
 
-  const setData = async() => await AsyncStorage.setItem('tarefas', tasks)
+
+  // FUNCTION MADE TO RENDER ALL THE TASKS AT ONCE
 
   function BoxCheck(props){
     return(
@@ -32,53 +34,7 @@ export default function App() {
     )
 }
 
-  function AddBoxCheck(props){
-
-    return(
-        <View style = {styles.checkBoxStyle}>
-
-            <TextInput 
-            placeholder="Adicionar..." 
-            placeholderTextColor= {'gray'} 
-            style = {styles.checkBoxAddStyle}
-            onChangeText = {text => setTexto(text)}
-            maxLength = {32}
-            defaultValue = {texto}/>
-
-            <Ionicons 
-            name="add-circle-sharp" 
-            size = {40} color = 'deeppink' 
-            onPress={props.press}/>
-
-        </View>
-    )
-}
-
-  // STATES
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      note: 'Leite'
-    },
-    {
-      id: 2,
-      note: 'Tomate'
-    },
-    {
-      id: 3,
-      note: 'Arroz'
-    }
-  ]);
-
-  const [texto, setTexto] = useState('');
-
- // LOADING FONTS
-  let [fontLoaded] = useFonts({
-    Roboto_400Regular })
-  if (!fontLoaded){ <AppLoading/> }
-
   let addBoxCheck = tasks.map(i => <BoxCheck text = {i.note} id = {i.id}/>)
-  
   
   return (
     <View style={styles.container}>
@@ -87,11 +43,25 @@ export default function App() {
       <View style = {styles.styleCheckBox}> 
       {addBoxCheck}
 
-       <AddBoxCheck press = {() => {
-        setTasks([...tasks, {id: tasks.length, note: texto}])
-        setTexto('')
-        setData()
-        }}/>
+    {/* A STATIC COMPONENT MADE TO HANDLE INPUTS */}
+
+       <View style = {styles.checkBoxStyle}>
+
+        <TextInput 
+        placeholder="Adicionar..." 
+        placeholderTextColor= {'gray'} 
+        style = {styles.checkBoxAddStyle}
+        onChangeText = {text => setTexto(text)}
+        maxLength = {32}
+        value = {texto}/>
+
+        <Ionicons 
+        name="add-circle-sharp" 
+        size = {40} color = 'deeppink' 
+        onPress={() => setTasks([...tasks, {id: tasks.length+1, note: texto}])}
+        />
+
+        </View>
       </View>
     </View>
   );
